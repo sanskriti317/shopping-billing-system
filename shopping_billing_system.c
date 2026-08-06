@@ -93,11 +93,11 @@ void stationaryMenu() {
 
 int getPrice(int cat, int item) {
     int priceTable[5][13] = {
-        {0,160,120,45,150,60,80,100,50,120,0,0,0},      // Food
-        {0,450,1500,4000,40000,30000,25000,60000,20000,15000,50000,0,0}, // Electronics
-        {0,350,400,1200,600,300,0,0,0,0,0,0,0},         // Makeup
-        {0,150,40,350,120,100,80,90,0,0,0,0,0},         // Toiletries
-        {0,15,15,120,5,5,60,300,10,15,30,200,40}        // Stationary
+        {0,160,120,45,150,60,80,100,50,120,0,0,0},      
+        {0,450,1500,4000,40000,30000,25000,60000,20000,15000,50000,0,0}, 
+        {0,350,400,1200,600,300,0,0,0,0,0,0,0},       
+        {0,150,40,350,120,100,80,90,0,0,0,0,0},        
+        {0,15,15,120,5,5,60,300,10,15,30,200,40}        
     };
     if (cat < 1 || cat > 5) return 0;
     if (item < 1 || item > 12) return 0;
@@ -106,11 +106,11 @@ int getPrice(int cat, int item) {
 
 float getTax(int cat) {
     switch (cat) {
-        case 1: return 0.05;  // Food
-        case 2: return 0.18;  // Electronics
-        case 3: return 0.12;  // Makeup
-        case 4: return 0.05;  // Toiletries
-        case 5: return 0.12;  // Stationary
+        case 1: return 0.05; 
+        case 2: return 0.18;  
+        case 3: return 0.12;  
+        case 4: return 0.05;  
+        case 5: return 0.12;  
         default: return 0;
     }
 }
@@ -149,7 +149,7 @@ void payment_mode() {
     }
     else {
         printf("\n Invalid Option! Please try again.\n");
-        payment_mode();  // restart
+        payment_mode();  
         return;
     }
 
@@ -164,19 +164,19 @@ float distance_charge() {
     while (!valid) {
         printf("Enter delivery distance (in km): ");
         if (scanf(" %f", &distance) != 1) {
-            // Clear input buffer
+           
             while (getchar() != '\n');
             printf("Error: Please enter a valid number!\n");
             continue;
         }
         
-        // Check if the input is a positive number
+        
         if (distance <= 0) {
             printf("Error: Distance must be greater than 0!\n");
             continue;
         }
         
-        valid = 1; // Input is valid
+        valid = 1; 
     }
     
     if (distance <= 2) {
@@ -189,7 +189,7 @@ float distance_charge() {
         charge = 200;
     }
     else {
-        charge = 200 + ((distance - 10) * 20); // Rs. 20 per km after 10 km
+        charge = 200 + ((distance - 10) * 20);
     }
     
     printf("Delivery charge for %.1f km: Rs. %.2f\n", distance, charge);
@@ -201,8 +201,8 @@ float coupon_code(float total) {
     float discount = 0;
 
     printf("\n\nEnter coupon code (CWU10/CWU20) or 'none': ");
-    scanf(" %s", code);  // note the space before %s
-
+    scanf(" %s", code);  
+    
     if(strcmp(code, "CWU10") == 0) {
         discount = total * 0.10;
         printf("Coupon Applied: 10%% OFF (Rs. %.2f)\n", discount);
@@ -223,8 +223,6 @@ float coupon_code(float total) {
     return total;
 }
 
-
-// Structure to store order items
 struct OrderItem {
     int category;
     int item;
@@ -234,7 +232,7 @@ struct OrderItem {
 
 const char* getItemName(int category, int item) {
     switch(category) {
-        case 1: // Food
+        case 1: 
             switch(item) {
                 case 1: return "CWU Instant Noodles";
                 case 2: return "CWU Mixed Dal";
@@ -247,7 +245,7 @@ const char* getItemName(int category, int item) {
                 case 9: return "CWU Momos";
                 default: return "Unknown Item";
             }
-        case 2: // Electronics
+        case 2: 
             switch(item) {
                 case 1: return "CWU Night Lamp";
                 case 2: return "CWU Hair Dryer";
@@ -261,7 +259,7 @@ const char* getItemName(int category, int item) {
                 case 10: return "CWU Gaming Station";
                 default: return "Unknown Item";
             }
-        case 3: // Makeup
+        case 3: 
             switch(item) {
                 case 1: return "CWU Pink Blush";
                 case 2: return "CWU Maroon Lipstick";
@@ -270,7 +268,7 @@ const char* getItemName(int category, int item) {
                 case 5: return "CWU Black Eyeliner";
                 default: return "Unknown Item";
             }
-        case 4: // Toiletries
+        case 4: 
             switch(item) {
                 case 1: return "CWU Brush";
                 case 2: return "CWU Bar Soap";
@@ -281,7 +279,7 @@ const char* getItemName(int category, int item) {
                 case 7: return "CWU Toothpaste";
                 default: return "Unknown Item";
             }
-        case 5: // Stationary
+        case 5: 
             switch(item) {
                 case 1: return "CWU Black Pen";
                 case 2: return "CWU Blue Pen";
@@ -339,15 +337,11 @@ int remove_item(struct OrderItem orders[], int *orderCount, float *total, float 
         printf("Removal cancelled.\n");
         return 0;
     }
-    
-    // Adjust indices to match array indexing
     choice--;
     
-    // Calculate values to subtract
     float item_cost = orders[choice].price * orders[choice].quantity;
     float item_tax = getTax(orders[choice].category) * item_cost;
     
-    // Update totals
     *total -= (item_cost + item_tax);
     *totalTax -= item_tax;
     *total_qty -= orders[choice].quantity;
@@ -363,7 +357,6 @@ for (int i = 0; i < 3; i++) {
         getItemName(orders[choice].category, orders[choice].item),
         orders[choice].quantity);
     
-    // Shift remaining items
     for(int i = choice; i < *orderCount - 1; i++) {
         orders[i] = orders[i + 1];
     }
@@ -385,7 +378,7 @@ void get_feedback() {
         
         printf("Please rate your experience (1-5 stars): ");
         if (scanf("%d", &stars) != 1) {
-            // Clear input buffer
+            
             while (getchar() != '\n');
             printf("Invalid input! Please enter a number between 1 and 5.\n");
             continue;
@@ -419,7 +412,7 @@ void get_feedback() {
 }
 
 
-// step 1: define structure
+
 struct Address {
     char name[50];
     char phone[15];
@@ -428,7 +421,6 @@ struct Address {
     char pincode[10];
 };
 
-// step 2: input function
 struct Address take_address_input() {
     struct Address addr;
     printf("\n=========== ENTER DELIVERY DETAILS ==========\n");
@@ -447,7 +439,6 @@ struct Address take_address_input() {
     return addr;
 }
 
-// step 3: print function
 void print_address(struct Address addr) {
     printf("\n============ DELIVERY ADDRESS =============\n");
     printf("--------------------------------------------\n");
@@ -462,7 +453,6 @@ int main() {
     float total = 0, totalTax = 0;
     char cont = 'y';
     
-    // Array to store ordered items
     struct OrderItem orders[50];
     struct Address userAddress;
 
@@ -476,9 +466,6 @@ int main() {
         scanf("%d", &choice);
         if(choice == 6) {
             printf("\nExiting");
-
-                
-
             break;
         }
 
@@ -506,7 +493,6 @@ int main() {
             total_qty += qty;
             totalTax += tax;
             
-            // Store the ordered item
             orders[orderCount].category = choice;
             orders[orderCount].item = item;
             orders[orderCount].quantity = qty;
@@ -546,7 +532,7 @@ int main() {
             
             if(choice == 'r' || choice == 'R') {
                 remove_item(orders, &orderCount, &total, &totalTax, &total_qty);
-                choice = 'y'; // Continue the loop
+                choice = 'y'; 
             }
         }
         cont = choice;
